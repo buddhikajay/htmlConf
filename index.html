@@ -3,6 +3,12 @@
     <!--<script src="/socket.io/socket.io.js"></script>-->
     <script src="https://simplewebrtc.com/latest-v2.js"></script> 
     <script src='/html_conf/js/meetrix.js'></script>
+    <script type="text/javascript">
+        webrtc.on('readyToCall', function () {
+           // you can name it anything
+           webrtc.joinRoom('buddhikajay');
+        });
+    </script>
 
     <style>
         div.gallery {

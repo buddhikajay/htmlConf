@@ -13,11 +13,11 @@ var webrtc = new SimpleWebRTC({
    // url: 'https://media.obmcse.xyz/'
 });
 
-// we have to wait until it's ready
-webrtc.on('readyToCall', function () {
-   // you can name it anything
-   webrtc.joinRoom('buddhikajay');
-});
+// Moved to html .we have to wait until it's ready
+// webrtc.on('readyToCall', function () {
+//    // you can name it anything
+//    webrtc.joinRoom('buddhikajay');
+// });
 
 
 // a peer video has been added
