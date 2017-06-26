@@ -1,8 +1,10 @@
 <head>
     <!--<script src="/vendor/simpleWebRTC/simplewebrtc.bundle.js"></script>-->
     <!--<script src="/socket.io/socket.io.js"></script>-->
-    <script src="https://simplewebrtc.com/latest-v2.js"></script> 
+    <script src="js/simplewebrtc.bundle.js"></script> 
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
     <script type="text/javascript">
+
         /**
          * Created by buddhikajay on 8/5/16.
          */
@@ -17,6 +19,9 @@
            url: 'https://sandbox.simplewebrtc.com:443/'
            // url: 'https://media.obmcse.xyz/'
         });
+
+        var muted = false;
+        var paused = false;
 
         // Moved to html .we have to wait until it's ready
         webrtc.on('readyToCall', function () {
@@ -95,6 +100,38 @@
             }
         }
 
+        function toggleMute(){
+            if(muted){
+                console.log('unmute');
+                webrtc.unmute();
+                // document.getElementById('muteIcon').className = "fa fa-microphone";
+                document.getElementById('muteIcon').style.color="green";
+            }
+            else{
+                console.log('mute');
+                webrtc.mute();
+                // document.getElementById('muteIcon').className = "fa fa-microphone-slash";
+                document.getElementById('muteIcon').style.color="red";
+
+            }
+            muted =! muted;
+        }
+
+        function togglePauseVideo(){
+            if(paused){
+                console.log('Resume Video');
+                webrtc.resumeVideo();
+                document.getElementById('pauseVideoIcon').style.color="green";              
+            }
+            else{
+                console.log('Pause Video');
+                webrtc.pauseVideo();
+                document.getElementById('pauseVideoIcon').style.color="red";
+            }
+            paused = !paused;
+        }
+
+
     </script>
 
     <style>
@@ -124,7 +161,10 @@
 <div id="remotes" class="container-fluid">
     <div class="gallery">
       <video autoplay id="localVideo" class="center-block"></video>
-      <div class="desc">description</div>
+      <div class="desc">
+        <i id="pauseVideoIcon" class="fa fa-video-camera" aria-hidden="true" onclick="togglePauseVideo()"></i>
+        <i id="muteIcon" class="fa fa-microphone" aria-hidden="true" onclick="toggleMute()"></i>
+      </div>
     </div>
 </div>
 </body>
