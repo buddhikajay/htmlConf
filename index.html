@@ -43,6 +43,7 @@
                 var description = document.createElement('div');
                 description.className = 'desc';
                 description.innerHTML = "description";
+
                 gallery.appendChild(description);
 
                 // suppress contextmenu
@@ -106,12 +107,14 @@
                 webrtc.unmute();
                 // document.getElementById('muteIcon').className = "fa fa-microphone";
                 document.getElementById('muteIcon').style.color="green";
+                document.getElementById('muteIconBan').style.display="none";
             }
             else{
                 console.log('mute');
                 webrtc.mute();
                 // document.getElementById('muteIcon').className = "fa fa-microphone-slash";
                 document.getElementById('muteIcon').style.color="red";
+                document.getElementById('muteIconBan').style.display="block";
 
             }
             muted =! muted;
@@ -121,14 +124,20 @@
             if(paused){
                 console.log('Resume Video');
                 webrtc.resumeVideo();
-                document.getElementById('pauseVideoIcon').style.color="green";              
+                document.getElementById('pauseVideoIcon').style.color="green"; 
+                document.getElementById('pauseVideoBan').style.display="none";             
             }
             else{
                 console.log('Pause Video');
                 webrtc.pauseVideo();
                 document.getElementById('pauseVideoIcon').style.color="red";
+                document.getElementById('pauseVideoBan').style.display="block";
             }
             paused = !paused;
+        }
+
+        function muteRemote(peer){
+            console.log('muting '+peer);
         }
 
 
@@ -161,6 +170,10 @@
         #pauseVideoIcon{
             color: green
         }
+        .ban-icon{
+            display:none;
+            color:red;
+        }
     </style>
 </head>
 <body>
@@ -168,8 +181,14 @@
     <div class="gallery">
       <video autoplay id="localVideo" class="center-block"></video>
       <div class="desc">
-        <i id="pauseVideoIcon" class="fa fa-video-camera" aria-hidden="true" onclick="togglePauseVideo()"></i>
-        <i id="muteIcon" class="fa fa-microphone" aria-hidden="true" onclick="toggleMute()"></i>
+        <span class="fa-stack fa-sm">
+          <i id="pauseVideoIcon" class="fa fa-video-camera fa-stack-1x" aria-hidden="true" onclick="togglePauseVideo()"></i>
+          <i id="pauseVideoBan" class="fa fa-ban fa-stack-2x ban-icon" onclick="togglePauseVideo()"></i>
+        </span>
+        <span class="fa-stack fa-sm">
+          <i id="muteIcon" class="fa fa-microphone fa-stack-1x" aria-hidden="true" onclick="toggleMute()"></i>
+          <i id="muteIconBan" class="fa fa-ban fa-stack-2x ban-icon" onclick="toggleMute()"></i>
+        </span>
       </div>
     </div>
 </div>
