@@ -124,14 +124,14 @@
                 console.log('unmute');
                 webrtc.unmute();
                 // document.getElementById('muteIcon').className = "fa fa-microphone";
-                document.getElementById('muteIcon').style.color="green";
+                // document.getElementById('muteIcon').style.color="green";
                 document.getElementById('muteIconBan').style.display="none";
             }
             else{
                 console.log('mute');
                 webrtc.mute();
                 // document.getElementById('muteIcon').className = "fa fa-microphone-slash";
-                document.getElementById('muteIcon').style.color="red";
+                // document.getElementById('muteIcon').style.color="red";
                 document.getElementById('muteIconBan').style.display="block";
 
             }
@@ -142,13 +142,13 @@
             if(paused){
                 console.log('Resume Video');
                 webrtc.resumeVideo();
-                document.getElementById('pauseVideoIcon').style.color="green"; 
+                // document.getElementById('pauseVideoIcon').style.color="green"; 
                 document.getElementById('pauseVideoBan').style.display="none";             
             }
             else{
                 console.log('Pause Video');
                 webrtc.pauseVideo();
-                document.getElementById('pauseVideoIcon').style.color="red";
+                // document.getElementById('pauseVideoIcon').style.color="red";
                 document.getElementById('pauseVideoBan').style.display="block";
             }
             paused = !paused;
@@ -194,12 +194,6 @@
         div.desc {
             padding: 15px;
             text-align: center;
-        }
-        #muteIcon{
-            color: green
-        }
-        #pauseVideoIcon{
-            color: green
         }
         .ban-icon{
             display:none;

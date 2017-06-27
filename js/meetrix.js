@@ -13,11 +13,14 @@ var webrtc = new SimpleWebRTC({
    // url: 'https://media.obmcse.xyz/'
 });
 
+var muted = false;
+var paused = false;
+
 // Moved to html .we have to wait until it's ready
-// webrtc.on('readyToCall', function () {
-//    // you can name it anything
-//    webrtc.joinRoom('buddhikajay');
-// });
+webrtc.on('readyToCall', function () {
+   // you can name it anything
+   webrtc.joinRoom('buddhikajay');
+});
 
 
 // a peer video has been added
@@ -32,8 +35,27 @@ webrtc.on('videoAdded', function (video, peer) {
 
         var description = document.createElement('div');
         description.className = 'desc';
-        description.innerHTML = "description";
         gallery.appendChild(description);
+
+        var span = document.createElement('span');
+        span.id = 'span_' + webrtc.getDomId(peer);
+        span.className = "fa-stack fa-sm";
+        description.appendChild(span);
+
+        var speakerIcon = document.createElement('i');
+        //this id is used to get the peer by string spitting
+        speakerIcon.id = 'speaker___' + webrtc.getDomId(peer);
+        speakerIcon.className = "fa fa-volume-up fa-stack-1x";
+        speakerIcon.onclick = function(){muteRemote(this);};
+        span.appendChild(speakerIcon);
+
+        var banIcon = document.createElement('i');
+        banIcon.id = 'ban___' + webrtc.getDomId(peer);
+        banIcon.className = "fa fa-ban fa-stack-2x ban-icon";
+        banIcon.onclick = function(){muteRemote(this);};
+        span.appendChild(banIcon);
+
+
 
         // suppress contextmenu
         video.oncontextmenu = function () { return false; };
@@ -87,5 +109,57 @@ function changeWidth(width){
     var all = document.getElementsByClassName('gallery');
     for (var i = 0; i < all.length; i++) {
       all[i].style.width = width+'px';
+    }
+}
+
+function toggleMute(){
+    if(muted){
+        console.log('unmute');
+        webrtc.unmute();
+        // document.getElementById('muteIcon').className = "fa fa-microphone";
+        // document.getElementById('muteIcon').style.color="green";
+        document.getElementById('muteIconBan').style.display="none";
+    }
+    else{
+        console.log('mute');
+        webrtc.mute();
+        // document.getElementById('muteIcon').className = "fa fa-microphone-slash";
+        // document.getElementById('muteIcon').style.color="red";
+        document.getElementById('muteIconBan').style.display="block";
+
+    }
+    muted =! muted;
+}
+
+function togglePauseVideo(){
+    if(paused){
+        console.log('Resume Video');
+        webrtc.resumeVideo();
+        // document.getElementById('pauseVideoIcon').style.color="green"; 
+        document.getElementById('pauseVideoBan').style.display="none";             
+    }
+    else{
+        console.log('Pause Video');
+        webrtc.pauseVideo();
+        // document.getElementById('pauseVideoIcon').style.color="red";
+        document.getElementById('pauseVideoBan').style.display="block";
+    }
+    paused = !paused;
+}
+
+function muteRemote(element){
+
+    var peer = element.id.split('___');
+    console.log('video volume:'+peer[1]);
+    video = document.getElementById(peer[1]);
+    if(video.volume == 1){
+        console.log('muting');
+        video.volume = 0;
+        document.getElementById('ban___'+peer[1]).style.display="block";
+    }
+    else{
+        console.log('unmuting');
+        video.volume = 1;
+        document.getElementById('ban___'+peer[1]).style.display="none";
     }
 }
