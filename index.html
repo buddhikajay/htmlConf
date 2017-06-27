@@ -50,15 +50,16 @@
                 description.appendChild(span);
 
                 var speakerIcon = document.createElement('i');
-                speakerIcon.id = 'speaker_' + webrtc.getDomId(peer);
+                //this id is used to get the peer by string spitting
+                speakerIcon.id = 'speaker_icon_' + webrtc.getDomId(peer);
                 speakerIcon.className = "fa fa-volume-up fa-stack-1x";
-                speakerIcon.onclick = function(video, peer){muteRemote(video, peer);};
+                speakerIcon.onclick = function(){muteRemote(this);};
                 span.appendChild(speakerIcon);
 
                 var banIcon = document.createElement('i');
                 banIcon.id = 'ban_' + webrtc.getDomId(peer);
                 banIcon.className = "fa fa-ban fa-stack-2x";
-                banIcon.onclick = function(video, peer){muteRemote(video, peer);};
+                banIcon.onclick = function(){muteRemote(this);};
                 span.appendChild(banIcon);
 
 
@@ -153,15 +154,18 @@
             paused = !paused;
         }
 
-        function muteRemote(video, peer){
-            if(video.volume == 1){
-                console.log('muting');
-                video.volume = 0;
-            }
-            else{
-                console.log('unmuting');
-                video.volume = 1;
-            }
+        function muteRemote(element){
+
+            var peer = element.id.split('_');
+            console.log('video volume:'+element.id);
+            // if(video.volume == 1){
+            //     console.log('muting');
+            //     video.volume = 0;
+            // }
+            // else{
+            //     console.log('unmuting');
+            //     video.volume = 1;
+            // }
         }
 
 
