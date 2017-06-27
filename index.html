@@ -45,15 +45,20 @@
                 gallery.appendChild(description);
 
                 var span = document.createElement('span');
+                span.id = 'span_' + webrtc.getDomId(peer);
                 span.className = "fa-stack fa-sm";
                 description.appendChild(span);
 
                 var speakerIcon = document.createElement('i');
+                speakerIcon.id = 'speaker_' + webrtc.getDomId(peer);
                 speakerIcon.className = "fa fa-volume-up fa-stack-1x";
+                speakerIcon.onclick = function(video, peer){muteRemote(video, peer);};
                 span.appendChild(speakerIcon);
 
                 var banIcon = document.createElement('i');
+                banIcon.id = 'ban_' + webrtc.getDomId(peer);
                 banIcon.className = "fa fa-ban fa-stack-2x";
+                banIcon.onclick = function(video, peer){muteRemote(video, peer);};
                 span.appendChild(banIcon);
 
 
@@ -148,8 +153,15 @@
             paused = !paused;
         }
 
-        function muteRemote(peer){
-            console.log('muting '+peer);
+        function muteRemote(video, peer){
+            if(video.volume == 1){
+                console.log('muting');
+                video.volume = 0;
+            }
+            else{
+                console.log('unmuting');
+                video.volume = 1;
+            }
         }
 
 
