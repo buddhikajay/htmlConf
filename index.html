@@ -42,9 +42,21 @@
 
                 var description = document.createElement('div');
                 description.className = 'desc';
-                description.innerHTML = "description";
-
                 gallery.appendChild(description);
+
+                var span = document.createElement('span');
+                span.className = "fa-stack fa-sm";
+                description.appendChild(span);
+
+                var speakerIcon = document.createElement('i');
+                speakerIcon.className = "fa fa-volume-up fa-stack-1x";
+                span.appendChild(speakerIcon);
+
+                var banIcon = document.createElement('i');
+                banIcon.className = "fa fa-ban fa-stack-2x";
+                span.appendChild(banIcon);
+
+
 
                 // suppress contextmenu
                 video.oncontextmenu = function () { return false; };
