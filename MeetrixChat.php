@@ -13,7 +13,29 @@ add_action('init', 'custom_rewrite_rule', 10, 0);
 
 */ 
 global $wp_query;
-// ... more ...
+// get the user activity the list
+$logged_in_users = get_transient('online_status');
+
+// get current user ID
+$user = wp_get_current_user();
+$userIdHash = hash('md5', $user->ID);
+
+// check if the current user needs to update his online status;
+// he does if he doesn't exist in the list
+$no_need_to_update = isset($logged_in_users[$userIdHash])
+
+    // and if his "last activity" was less than let's say ...15 minutes ago          
+    && $logged_in_users[$userIdHash] >  (time() - (15 * 60));
+
+// update the list if needed
+if(!$no_need_to_update){
+  $logged_in_users[$userIdHash] = time();
+  set_transient('online_status', $logged_in_users, $expire_in = (30*60)); // 30 mins 
+}
+
+echo "http://localhost/wordpress/index.php/conference/";
+echo hash('md5', $user->ID);
+
 ?>
 <!DOCTYPE html>
 	<head>
