@@ -87,22 +87,31 @@ function arrange(){
         switch (videoCount){
           case 1:
             console.log("Only One");
-            changeWidth(80);
-            changeMargin(20);
+            changeWidth(60);
+            // changeHeight(95);
+            changeMargin(20, 'auto', 'auto', 'auto');
             break;
           case 2:
             console.log("Two");
             changeWidth(36);
+            // changeHeight(60);
+            changeMargin(14, 'auto', 20, 'auto');
             break;
           case 3:
             console.log("Three");
-            changeWidth(28);
+            changeWidth(28, 'auto', 'auto', 'auto');
+            changeMargin(6,'auto', 20, 'auto');
             break;
           case 4:
             console.log("Four");
-            changeWidth(40);
+            changeWidth(27);
+            changeMargin(19,'auto', 0, 'auto');
             break;
-
+          default:
+            console.log("Five or six");
+            changeWidth(27);
+            changeMargin(6,'auto', 0, 'auto');
+            break;
         }
     }
 }
@@ -110,12 +119,22 @@ function arrange(){
 function changeWidth(width){
     var all = document.getElementsByClassName('gallery');
     for (var i = 0; i < all.length; i++) {
-      all[i].style.width = width+'vw';
+      all[i].style.width = width+'vmax';
     }
 }
 
-function changeMargin(margin){
-    document.getElementById('remotes').style.marginLeft = margin;
+function changeHeight(height){
+    var all = document.getElementsByClassName('gallery');
+    for (var i = 0; i < all.length; i++) {
+      all[i].style.height = height+'vmax';
+    }
+}
+
+function changeMargin(left, right, top, bottom){
+    document.getElementById('remotes').style.marginLeft = left+'vw';
+    document.getElementById('remotes').style.marginRight = right+'vw';
+    document.getElementById('remotes').style.marginTop = top+'vh';
+    document.getElementById('remotes').style.marginBottom = bottom+'vh';
 }
 
 function toggleMute(){
