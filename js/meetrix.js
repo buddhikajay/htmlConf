@@ -17,11 +17,11 @@ var muted = false;
 var paused = false;
 
 // Moved to html .we have to wait until it's ready
-webrtc.on('readyToCall', function () {
-   // you can name it anything
-   webrtc.joinRoom('buddhikajay');
-   arrange();
-});
+// webrtc.on('readyToCall', function () {
+//    // you can name it anything
+//    webrtc.joinRoom('buddhikajay');
+//    arrange();
+// });
 
 
 // a peer video has been added
@@ -89,7 +89,7 @@ function arrange(){
             console.log("Only One");
             changeWidth(60);
             // changeHeight(95);
-            changeMargin(20, 'auto', 'auto', 'auto');
+            changeMargin(20, 'auto', 0, 'auto');
             break;
           case 2:
             console.log("Two");
