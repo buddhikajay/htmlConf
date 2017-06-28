@@ -1,10 +1,19 @@
-<?php /* Template Name: MeetrixChat */ 
-get_header(); 
+<?php /* Template Name: MeetrixChat 
+Add following to functions.php
 
+function custom_rewrite_tag() {
+  add_rewrite_tag('%room%', '([^&]+)');
+}
+add_action('init', 'custom_rewrite_tag', 10, 0);
+
+function custom_rewrite_rule() {
+	add_rewrite_rule('^conference/([^/]*)/?','index.php?page_id=20&room=$matches[1]','top');
+}
+add_action('init', 'custom_rewrite_rule', 10, 0);
+
+*/ 
 global $wp_query;
-echo 'Room : ' . $wp_query->query_vars['room'];
 // ... more ...
-get_footer();
 ?>
 <!DOCTYPE html>
 	<head>
@@ -32,3 +41,12 @@ get_footer();
 	    </div>
 	</div>
 	</body>
+	<script type="text/javascript">
+	  webrtc.on('readyToCall', function () {
+	   // you can name it anything
+	   webrtc.joinRoom(<?php echo "'".$wp_query->query_vars['room']."'"; ?>);
+	   arrange();
+	  });
+	</script>
+
+
