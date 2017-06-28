@@ -20,6 +20,7 @@ var paused = false;
 webrtc.on('readyToCall', function () {
    // you can name it anything
    webrtc.joinRoom('buddhikajay');
+   arrange();
 });
 
 
@@ -86,19 +87,20 @@ function arrange(){
         switch (videoCount){
           case 1:
             console.log("Only One");
-            changeWidth(600);
+            changeWidth(80);
+            changeMargin(20);
             break;
           case 2:
             console.log("Two");
-            changeWidth(400);
+            changeWidth(36);
             break;
           case 3:
             console.log("Three");
-            changeWidth(280);
+            changeWidth(28);
             break;
           case 4:
             console.log("Four");
-            changeWidth(400);
+            changeWidth(40);
             break;
 
         }
@@ -108,8 +110,12 @@ function arrange(){
 function changeWidth(width){
     var all = document.getElementsByClassName('gallery');
     for (var i = 0; i < all.length; i++) {
-      all[i].style.width = width+'px';
+      all[i].style.width = width+'vw';
     }
+}
+
+function changeMargin(margin){
+    document.getElementById('remotes').style.marginLeft = margin;
 }
 
 function toggleMute(){
