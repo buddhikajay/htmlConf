@@ -13,12 +13,15 @@ add_action('init', 'custom_rewrite_rule', 10, 0);
 
 */ 
 global $wp_query;
+
 // get the user activity the list
 $logged_in_users = get_transient('online_status');
 
 // get current user ID
 $user = wp_get_current_user();
 $userIdHash = hash('md5', $user->ID);
+$room = $wp_query->query_vars['room'];
+$autherOnline = isset($logged_in_users[$room]) && $logged_in_users[$room] >  (time() - (15 * 60));
 
 // check if the current user needs to update his online status;
 // he does if he doesn't exist in the list
@@ -46,6 +49,11 @@ if(!$no_need_to_update){
 	<body>
 	<div id="remotes" class="container-fluid">
 	    <div class="gallery">
+	    <?php
+			if(!$autherOnline){
+				echo "<h3 style=\"width:100%;background-color:red\">Conference has not been started yet. Please try again later</h3>";
+			}
+		?>
 	      <video autoplay id="localVideo" class="center-block"></video>
 	      <div class="desc">
 	        <span class="fa-stack fa-sm">
@@ -75,8 +83,6 @@ if(!$no_need_to_update){
 		arrange();
 	</script>
 	<?php
-	$room = $wp_query->query_vars['room'];
-	$autherOnline = isset($logged_in_users[$room]) && $logged_in_users[$room] >  (time() - (15 * 60));
 	if($autherOnline){
 		echo "<script type=\"text/javascript\">
 			  webrtc.on('readyToCall', function () {
@@ -85,9 +91,9 @@ if(!$no_need_to_update){
 			  });
 		</script>";
 	}
-	else{
-		echo "Auther Has not LoggedIn";
-	}
+	// else{
+
+	// }
 	?>
 
 
