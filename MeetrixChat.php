@@ -6,10 +6,15 @@ function custom_rewrite_tag() {
 }
 add_action('init', 'custom_rewrite_tag', 10, 0);
 
-function custom_rewrite_rule() {
+function custom_rewrite_rule_1() {
 	add_rewrite_rule('^conference/([^/]*)/?','index.php?page_id=20&room=$matches[1]','top');
 }
-add_action('init', 'custom_rewrite_rule', 10, 0);
+add_action('init', 'custom_rewrite_rule_1', 10, 0);
+
+function custom_rewrite_rule_2() {
+	add_rewrite_rule('^conference','index.php?page_id=20','top');
+}
+add_action('init', 'custom_rewrite_rule_2', 10, 0);
 
 */ 
 global $wp_query;
@@ -17,23 +22,37 @@ global $wp_query;
 // get the user activity the list
 $logged_in_users = get_transient('online_status');
 
-// get current user ID
-$user = wp_get_current_user();
-$userIdHash = hash('md5', $user->ID);
-$room = $wp_query->query_vars['room'];
-$autherOnline = isset($logged_in_users[$room]) && $logged_in_users[$room] >  (time() - (15 * 60));
+$room=false;
+if(isset($wp_query->query_vars['room'])){
+	$room = $wp_query->query_vars['room'];
+}
+if(is_user_logged_in()){
+	// get current user ID
+	$user = wp_get_current_user();
+	$userIdHash = hash('md5', $user->ID);
+	// echo $userIdHash;
 
-// check if the current user needs to update his online status;
-// he does if he doesn't exist in the list
-$no_need_to_update = isset($logged_in_users[$userIdHash])
+	// check if the current user needs to update his online status;
+	// he does if he doesn't exist in the list
+	$no_need_to_update = isset($logged_in_users[$userIdHash])
 
-    // and if his "last activity" was less than let's say ...15 minutes ago          
-    && $logged_in_users[$userIdHash] >  (time() - (15 * 60));
+	    // and if his "last activity" was less than let's say ...15 minutes ago          
+	    && $logged_in_users[$userIdHash] >  (time() - (15 * 60));
 
-// update the list if needed
-if(!$no_need_to_update){
-  $logged_in_users[$userIdHash] = time();
-  set_transient('online_status', $logged_in_users, $expire_in = (30*60)); // 30 mins 
+	// update the list if needed
+	if(!$no_need_to_update){
+	  	$logged_in_users[$userIdHash] = time();
+	  	set_transient('online_status', $logged_in_users, $expire_in = (30*60)); // 30 mins 
+	}
+
+	if(!$room){
+		// echo "user logged in. No room";
+		$room = $userIdHash;
+	}
+}
+$autherOnline = false;
+if($room){
+	$autherOnline = isset($logged_in_users[$room]) && $logged_in_users[$room] >  (time() - (60));
 }
 
 ?>
@@ -64,9 +83,14 @@ if(!$no_need_to_update){
 	          <i id="muteIcon" class="fa fa-microphone fa-stack-1x" aria-hidden="true" onclick="toggleMute()"></i>
 	          <i id="muteIconBan" class="fa fa-ban fa-stack-2x ban-icon" onclick="toggleMute()"></i>
 	        </span>
-	        <span class="fa-stack fa-sm">
-          		<a id="linkIcon" class="fa fa-link fa-stack-1x" aria-hidden="true" href="#openModal"></a>
-        	</span>
+	        <?php
+	        	if(is_user_logged_in() && $user && $userIdHash==$room){
+	        	echo 
+			        "<span class=\"fa-stack fa-sm\">
+		          		<a id=\"linkIcon\" class=\"fa fa-link fa-stack-1x\" aria-hidden=\"true\" href=\"#openModal\"></a>
+		        	</span>";
+	        	}
+	        ?>
 	      </div>
 	    </div>
 	</div>
