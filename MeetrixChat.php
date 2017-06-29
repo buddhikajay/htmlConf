@@ -37,12 +37,12 @@ if(is_user_logged_in()){
 	$no_need_to_update = isset($logged_in_users[$userIdHash])
 
 	    // and if his "last activity" was less than let's say ...15 minutes ago          
-	    && $logged_in_users[$userIdHash] >  (time() - (15 * 60));
+	    && $logged_in_users[$userIdHash] >  (time() - (60));
 
 	// update the list if needed
 	if(!$no_need_to_update){
 	  	$logged_in_users[$userIdHash] = time();
-	  	set_transient('online_status', $logged_in_users, $expire_in = (30*60)); // 30 mins 
+	  	set_transient('online_status', $logged_in_users, $expire_in = (60)); // 30 mins 
 	}
 
 	if(!$room){
@@ -54,6 +54,13 @@ $autherOnline = false;
 if($room){
 	$autherOnline = isset($logged_in_users[$room]) && $logged_in_users[$room] >  (time() - (60));
 }
+// echo $room;
+// if ($autherOnline){
+// 	echo "auther online";
+// }
+// else{
+// 	echo "auther offline";
+// }
 
 ?>
 <!DOCTYPE html>
