@@ -24,9 +24,13 @@
 </div>
 </body>
 <script type="text/javascript">
+  window.onload = function() {
+    arrange();
+  }
+</script>
+<script type="text/javascript">
   webrtc.on('readyToCall', function () {
    // you can name it anything
    webrtc.joinRoom('buddhikajay');
-   arrange();
   });
 </script>
