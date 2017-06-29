@@ -67,12 +67,19 @@ echo hash('md5', $user->ID);
 		arrange();
 	</script>
 	<?php
+	$room = $wp_query->query_vars['room'];
+	$autherOnline = isset($logged_in_users[$room]) && $logged_in_users[$room] >  (time() - (15 * 60));
+	if($autherOnline){
 		echo "<script type=\"text/javascript\">
 			  webrtc.on('readyToCall', function () {
 			   // you can name it anything
-			   webrtc.joinRoom('".$wp_query->query_vars['room']."');
+			   webrtc.joinRoom('".$room."');
 			  });
-		</script>"
+		</script>";
+	}
+	else{
+		echo "Auther Has not LoggedIn";
+	}
 	?>
 
 
