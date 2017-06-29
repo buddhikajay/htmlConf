@@ -33,9 +33,6 @@ if(!$no_need_to_update){
   set_transient('online_status', $logged_in_users, $expire_in = (30*60)); // 30 mins 
 }
 
-echo "http://localhost/wordpress/index.php/conference/";
-echo hash('md5', $user->ID);
-
 ?>
 <!DOCTYPE html>
 	<head>
@@ -59,10 +56,21 @@ echo hash('md5', $user->ID);
 	          <i id="muteIcon" class="fa fa-microphone fa-stack-1x" aria-hidden="true" onclick="toggleMute()"></i>
 	          <i id="muteIconBan" class="fa fa-ban fa-stack-2x ban-icon" onclick="toggleMute()"></i>
 	        </span>
+	        <span class="fa-stack fa-sm">
+          		<a id="linkIcon" class="fa fa-link fa-stack-1x" aria-hidden="true" href="#openModal"></a>
+        	</span>
 	      </div>
 	    </div>
 	</div>
 	</body>
+
+	<div id="openModal" class="modalDialog">
+	    <div> 
+	    	<a href="#close" title="Close" class="close">X</a>
+	          <h2>Share this link</h2>
+	          <input value=<?php echo "https://localhost/wordpress/index.php/conference/".$userIdHash?> style="width:100%">
+	    </div>
+	</div>
 	<script type="text/javascript">
 		arrange();
 	</script>
