@@ -64,10 +64,10 @@ echo hash('md5', $user->ID);
 	</div>
 	</body>
 	<script type="text/javascript">
+	  arrange();
 	  webrtc.on('readyToCall', function () {
 	   // you can name it anything
 	   webrtc.joinRoom(<?php echo "'".$wp_query->query_vars['room']."'"; ?>);
-	   arrange();
 	  });
 	</script>
 
