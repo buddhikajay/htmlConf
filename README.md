@@ -9,8 +9,12 @@ Steps:
 
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/meetrix/js/
 		meetrix.js”></script>
+		
+5. To get a randomly generated userIdHash, which is unique in every time a conference is started by the user:
 
-5. Copy followings at the end of ‘functions.php’.
+		$userIdHash = hash('md5', rand());
+
+6. Copy followings at the end of ‘functions.php’.
 
 		function custom_rewrite_rule_1() {
 		add_rewrite_rule('^conference/([^/]*)/?','index.php?page_id=20&room=
@@ -25,17 +29,17 @@ Steps:
 		
 		add_action('init', 'custom_rewrite_rule_2', 10, 0);
 
-6. Update and save permalinks from wordpress admin panel.
+7. Update and save permalinks from wordpress admin panel.
 Now the MeetrixChat template has been created and can be used to create pages.
-7. Then create a new page from wordpress admin panel, and select ‘MeetrixChat’ as its template and publish it.
-8. Then update and save permalinks from wordpress admin panel.
-9. To provide the conference room ID ($room) for the third user (who has not logged in), the following can be added to ‘MeetrixChat.php’:
+8. Then create a new page from wordpress admin panel, and select ‘MeetrixChat’ as its template and publish it.
+9. Then update and save permalinks from wordpress admin panel.
+10. To provide the conference room ID ($room) for the third user (who has not logged in), the following can be added to ‘MeetrixChat.php’:
 
 		if( !(is_user_logged_in()) ){
 		$room = $_SERVER['QUERY_STRING'];
 		}
 
-10. “Share this link” option should be allowed only for the logged in user, therefore it should be within the if() block as follows:
+11. “Share this link” option should be allowed only for the logged in user, therefore it should be within the if() block as follows:
 
 		if(is_user_logged_in() && $user && $userIdHash==$room){	
 		    echo '<div id="'.'openModal" class="modalDialog">'.'<div>'; 
@@ -44,6 +48,13 @@ Now the MeetrixChat template has been created and can be used to create pages.
 		    echo "http://localhost/conference/?".$userIdHash;
 		    echo '"></div>'.'</div>';
 		   }
+		   
+Start the Conference:
+1. The user who is able to log into the system has to login and share the link given.
 
+                  Login to wordpress
+		  
+                  Obtain the link from “http://localhost/conference/”
 
-
+2. Arrange the room by adding the user through the shared link.
+		   
