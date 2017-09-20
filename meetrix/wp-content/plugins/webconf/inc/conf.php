@@ -1,22 +1,4 @@
-<?php /* Template Name: MeetrixChat 
-Add following to functions.php
-
-function custom_rewrite_tag() {
-  add_rewrite_tag('%room%', '([^&]+)');
-}
-add_action('init', 'custom_rewrite_tag', 10, 0);
-
-function custom_rewrite_rule_1() {
-	add_rewrite_rule('^conference/([^/]*)/?','index.php?page_id=20&room=$matches[1]','top');
-}
-add_action('init', 'custom_rewrite_rule_1', 10, 0);
-
-function custom_rewrite_rule_2() {
-	add_rewrite_rule('^conference','index.php?page_id=20','top');
-}
-add_action('init', 'custom_rewrite_rule_2', 10, 0);
-
-*/ 
+<?php 
 global $wp_query;
 
 // get the user activity list
@@ -81,10 +63,10 @@ if($room){
 	<head>
     <!--<script src="/vendor/simpleWebRTC/simplewebrtc.bundle.js"></script>-->
     <!--<script src="/socket+.io/socket.io.js"></script>-->
-    <script src="<?php echo get_template_directory_uri(); ?>/assets/meetrix/js/simplewebrtc.bundle.js"></script>
-    <script src="<?php echo get_template_directory_uri(); ?>/assets/meetrix/js/meetrix.js"></script>
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/meetrix/css/meetrix.css">
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/meetrix/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="<?php echo plugin_dir_url(__FILE__); ?>/js/simplewebrtc.bundle.js"></script>
+    <script src="<?php echo plugin_dir_url(__FILE__);; ?>/js/meetrix.js"></script>
+    <link rel="stylesheet" href="<?php echo plugin_dir_url(__FILE__); ?>/css/meetrix.css">
+    <link rel="stylesheet" href="<?php echo plugin_dir_url(__FILE__); ?>/font-awesome-4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
 	<div id="remotes" class="container-fluid">
@@ -123,8 +105,8 @@ if($room){
 	    echo '<div id="'.'openModal" class="modalDialog">'.'<div>'; 
 		echo '<a href="'.'#close" title="Close" class="close">X</a>';
 		echo '<h2>Share this link</h2><input style="width:100%" value="';
-		//echo "http://localhost/conference/?page_Id=1&room=".$userIdHash;
-		echo "http://localhost/conference/?".$userIdHash;
+		//echo "http://localhost/plugged/?page_Id=1&room=".$userIdHash;
+		echo "http://localhost/plugged/?".$userIdHash;
 		echo '"></div>'.'</div>';
     }
 	?>
